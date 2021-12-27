@@ -1,4 +1,4 @@
-//package org.usfirst.frc.team449.robot._2020.shooter.commands;
+//package frc.team449._2020.shooter.commands;
 //
 //import com.fasterxml.jackson.annotation.JsonCreator;
 //import com.fasterxml.jackson.annotation.JsonIdentityInfo;
@@ -9,7 +9,7 @@
 //import edu.wpi.first.wpilibj2.command.InstantCommand;
 //import io.github.oblarg.oblog.annotations.Log;
 //import org.jetbrains.annotations.NotNull;
-//import org.usfirst.frc.team449.robot._2020.shooter.SubsystemFlywheel;
+//import frc.team449._2020.shooter.SubsystemFlywheel;
 //
 ///** Turn on the flywheel and the feeder. */
 //@JsonIdentityInfo(generator = ObjectIdGenerators.StringIdGenerator.class)

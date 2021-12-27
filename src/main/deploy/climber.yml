@@ -39,7 +39,7 @@ useCameraServer: false
 
 ########################################################################################################################
 *PDP:
-  org.usfirst.frc.team449.robot.jacksonWrappers.PDP:
+  frc.team449.jacksonWrappers.PDP:
     '@id': PDP
     canID: 0
     voltagePerCurrentLinReg:
@@ -51,21 +51,21 @@ useCameraServer: false
 *SUBSYSTEMS:
   #***********************************************************************************************************************
   - *CLIMBER_SUBSYSTEM
-  - org.usfirst.frc.team449.robot._2020.climber.UnsafeWinchingClimber:
+  - frc.team449._2020.climber.UnsafeWinchingClimber:
       '@id': climber
       motorSubsystem:
-        org.usfirst.frc.team449.robot._2020.multiSubsystem.AnalogMotorSingleSpeed:
+        frc.team449._2020.multiSubsystem.AnalogMotorSingleSpeed:
           '@id': climberMotorSubsystem
           speed: 1.0
           motor:
-            org.usfirst.frc.team449.robot.generalInterfaces.SmartMotor:
+            frc.team449.generalInterfaces.SmartMotor:
               '@id': climberMotor
               name: climberMotor
               type: SPARK
               port: *climberMotorPort
               enableBrakeMode: false
       solenoidSubsystem:
-        org.usfirst.frc.team449.robot._2020.multiSubsystem.SolenoidSimple:
+        frc.team449._2020.multiSubsystem.SolenoidSimple:
           '@id': climberSolenoidSystem
           piston:
             '@id': climberSolenoid
@@ -79,70 +79,70 @@ useCameraServer: false
   *BUTTONS:
     - *CLIMBER_COMMANDS
     - button:
-        org.usfirst.frc.team449.robot.oi.buttons.SimpleButton:
+        frc.team449.oi.buttons.SimpleButton:
           '@id': climberRaiseButton
           joystick:
-            org.usfirst.frc.team449.robot.jacksonWrappers.MappedJoystick:
+            frc.team449.jacksonWrappers.MappedJoystick:
               '@id': mechanismsJoystick
               port: *mechanismsJoystickPort
           buttonNumber: *climberRaiseButtonNumber
       command:
-        org.usfirst.frc.team449.robot._2020.climber.commands.SetClimberWithArmState:
+        frc.team449._2020.climber.commands.SetClimberWithArmState:
           '@id': climberRaiseCommand
           subsystem:
-            org.usfirst.frc.team449.robot._2020.climber.UnsafeWinchingClimber:
+            frc.team449._2020.climber.UnsafeWinchingClimber:
               climber
           state: "RAISE"
       action: WHEN_PRESSED
     - button:
-        org.usfirst.frc.team449.robot.oi.buttons.SimpleButton:
+        frc.team449.oi.buttons.SimpleButton:
           '@id': climberLowerButton
           joystick:
-            org.usfirst.frc.team449.robot.jacksonWrappers.MappedJoystick:
+            frc.team449.jacksonWrappers.MappedJoystick:
               mechanismsJoystick
           buttonNumber: *climberLowerButtonNumber
       command:
-        org.usfirst.frc.team449.robot._2020.climber.commands.SetClimberWithArmState:
+        frc.team449._2020.climber.commands.SetClimberWithArmState:
           '@id': climberLowerCommand
           subsystem:
-            org.usfirst.frc.team449.robot._2020.climber.UnsafeWinchingClimber:
+            frc.team449._2020.climber.UnsafeWinchingClimber:
               climber
           state: "LOWER"
       action: WHEN_PRESSED
     - button:
-        org.usfirst.frc.team449.robot.oi.buttons.SimpleButton:
+        frc.team449.oi.buttons.SimpleButton:
           '@id': climberWinchButton_press
           joystick:
-            org.usfirst.frc.team449.robot.jacksonWrappers.MappedJoystick:
+            frc.team449.jacksonWrappers.MappedJoystick:
               mechanismsJoystick
           buttonNumber: *climberWinchButtonNumber
       command:
-        org.usfirst.frc.team449.robot._2020.multiSubsystem.commands.TurnMotorOn:
+        frc.team449._2020.multiSubsystem.commands.TurnMotorOn:
           '@id': climberWinchCommand_press
           subsystem:
-            org.usfirst.frc.team449.robot._2020.climber.UnsafeWinchingClimber:
+            frc.team449._2020.climber.UnsafeWinchingClimber:
               climber
       action: WHEN_PRESSED
     - button:
-        org.usfirst.frc.team449.robot.oi.buttons.SimpleButton:
+        frc.team449.oi.buttons.SimpleButton:
           '@id': climberWinchButton_release
           joystick:
-            org.usfirst.frc.team449.robot.jacksonWrappers.MappedJoystick:
+            frc.team449.jacksonWrappers.MappedJoystick:
               mechanismsJoystick
           buttonNumber: *climberWinchButtonNumber
       command:
-        org.usfirst.frc.team449.robot._2020.multiSubsystem.commands.TurnMotorOff:
+        frc.team449._2020.multiSubsystem.commands.TurnMotorOff:
           '@id': climberWinchCommand_release
           subsystem:
-            org.usfirst.frc.team449.robot._2020.climber.UnsafeWinchingClimber:
+            frc.team449._2020.climber.UnsafeWinchingClimber:
               climber
       action: WHEN_RELEASED
 
 
 ########################################################################################################################
 *UPDATER:
-  org.usfirst.frc.team449.robot.other.Updater:
+  frc.team449.other.Updater:
     '@id': updater
     updatables:
-      - org.usfirst.frc.team449.robot.jacksonWrappers.PDP: PDP
-      - org.usfirst.frc.team449.robot._2020.climber.UnsafeWinchingClimber: climber
+      - frc.team449.jacksonWrappers.PDP: PDP
+      - frc.team449._2020.climber.UnsafeWinchingClimber: climber

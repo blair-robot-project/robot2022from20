@@ -1,4 +1,4 @@
-// package org.usfirst.frc.team449.robot.jacksonWrappers;
+// package frc.team449.jacksonWrappers;
 //
 // import com.fasterxml.jackson.annotation.JsonTypeInfo;
 //
