@@ -134,6 +134,7 @@ useCameraServer: false
   frc.team449.jacksonWrappers.PDP:
     '@id': PDP
     canID: 0
+    moduleType: kCTRE
     voltagePerCurrentLinReg:
       bufferSize: 250
       rSquaredThreshhold: 0.75

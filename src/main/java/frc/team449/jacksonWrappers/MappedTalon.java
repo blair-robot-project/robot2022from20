@@ -1,34 +1,25 @@
 package frc.team449.jacksonWrappers;
 
-import com.ctre.phoenix.motorcontrol.ControlFrame;
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.DemandType;
-import com.ctre.phoenix.motorcontrol.Faults;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
-import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.RemoteLimitSwitchSource;
-import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
-import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod;
+import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.shuffleboard.EventImportance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import frc.team449.components.RunningLinRegComponent;
 import frc.team449.generalInterfaces.SmartMotor;
 import frc.team449.generalInterfaces.shiftable.Shiftable;
 import io.github.oblarg.oblog.annotations.Log;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import frc.team449.components.RunningLinRegComponent;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Component wrapper on the CTRE {@link TalonSRX}, with unit conversions to/from FPS built in. Every
@@ -37,12 +28,22 @@ import frc.team449.components.RunningLinRegComponent;
 @JsonIdentityInfo(generator = ObjectIdGenerators.StringIdGenerator.class)
 public class MappedTalon implements SmartMotor {
 
-  /** The CTRE CAN Talon SRX that this class is a wrapper on */
-  @NotNull protected final TalonSRX canTalon;
-  /** The PDP this Talon is connected to. */
-  @Nullable @Log.Exclude protected final PDP PDP;
-  /** The counts per rotation of the encoder being used, or null if there is no encoder. */
-  @Nullable private final Integer encoderCPR;
+  /**
+   * The CTRE CAN Talon SRX that this class is a wrapper on
+   */
+  @NotNull
+  protected final TalonSRX canTalon;
+  /**
+   * The PDP this Talon is connected to.
+   */
+  @Nullable
+  @Log.Exclude
+  protected final PDP pdp;
+  /**
+   * The counts per rotation of the encoder being used, or null if there is no encoder.
+   */
+  @Nullable
+  private final Integer encoderCPR;
   /**
    * The number of feet travelled per rotation of the motor this is attached to, or null if there is
    * no encoder.
@@ -84,7 +85,7 @@ public class MappedTalon implements SmartMotor {
    * @param enableBrakeMode Whether to brake or coast when stopped.
    * @param voltagePerCurrentLinReg The component for doing linear regression to find the
    *     resistance.
-   * @param PDP The PDP this Talon is connected to.
+   * @param pdp The PDP this Talon is connected to.
    * @param fwdLimitSwitchNormallyOpen Whether the forward limit switch is normally open or closed.
    *     If this is null, the forward limit switch is disabled.
    * @param revLimitSwitchNormallyOpen Whether the reverse limit switch is normally open or closed.
@@ -131,7 +132,7 @@ public class MappedTalon implements SmartMotor {
       final boolean reverseOutput,
       @JsonProperty(required = true) final boolean enableBrakeMode,
       @Nullable final RunningLinRegComponent voltagePerCurrentLinReg,
-      @Nullable final PDP PDP,
+      @Nullable final PDP pdp,
       @Nullable final Boolean fwdLimitSwitchNormallyOpen,
       @Nullable final Boolean revLimitSwitchNormallyOpen,
       @Nullable final Integer remoteLimitSwitchID,
@@ -164,7 +165,7 @@ public class MappedTalon implements SmartMotor {
     // Reset the position
     this.resetPosition();
 
-    this.PDP = PDP;
+    this.pdp = pdp;
     this.voltagePerCurrentLinReg = voltagePerCurrentLinReg;
 
     // Set frame rates
@@ -333,7 +334,7 @@ public class MappedTalon implements SmartMotor {
             enableBrakeMode,
             currentLimit,
             enableVoltageComp ? notNullVoltageCompSamples : null,
-            PDP,
+            pdp,
             voltagePerCurrentLinReg);
       }
     }

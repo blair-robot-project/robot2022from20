@@ -9,30 +9,38 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.CANSparkMaxLowLevel.PeriodicFrame;
 import com.revrobotics.ControlType;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.CounterBase;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.controller.PIDController;
-import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.shuffleboard.EventImportance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import frc.team449.generalInterfaces.SmartMotorExternalEncoder;
 import frc.team449.generalInterfaces.shiftable.Shiftable;
+import frc.team449.other.Clock;
 import io.github.oblarg.oblog.annotations.Log;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import frc.team449.generalInterfaces.SmartMotorExternalEncoder;
-import frc.team449.other.Clock;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /** Represents a spark max with an external encoder */
 @JsonIdentityInfo(generator = ObjectIdGenerators.StringIdGenerator.class)
 public class MappedSparkMaxExternalEncoder implements SmartMotorExternalEncoder {
-  /** The PDP this Spark is connected to. */
-  @Nullable @Log.Exclude protected final PDP PDP;
-  /** The counts per rotation of the encoder being used, or null if there is no encoder. */
-  @Nullable private final Integer encoderCPR;
+  /**
+   * The PDP this Spark is connected to.
+   */
+  @Nullable
+  @Log.Exclude
+  protected final PDP pdp;
+  /**
+   * The counts per rotation of the encoder being used, or null if there is no encoder.
+   */
+  @Nullable
+  private final Integer encoderCPR;
   /**
    * The coefficient the output changes by after being measured by the encoder, e.g. this would be
    * 1/70 if there was a 70:1 gearing between the encoder and the final output.
@@ -116,7 +124,7 @@ public class MappedSparkMaxExternalEncoder implements SmartMotorExternalEncoder 
       @Nullable final String name,
       final boolean reverseOutput,
       @JsonProperty(required = true) final boolean enableBrakeMode,
-      @Nullable final PDP PDP,
+      @Nullable final PDP pdp,
       @Nullable final Boolean fwdLimitSwitchNormallyOpen,
       @Nullable final Boolean revLimitSwitchNormallyOpen,
       @Nullable final Integer remoteLimitSwitchID,
@@ -168,7 +176,7 @@ public class MappedSparkMaxExternalEncoder implements SmartMotorExternalEncoder 
       }
     }
 
-    this.PDP = PDP;
+    this.pdp = pdp;
 
     this.unitPerRotation = unitPerRotation != null ? unitPerRotation : 1;
 

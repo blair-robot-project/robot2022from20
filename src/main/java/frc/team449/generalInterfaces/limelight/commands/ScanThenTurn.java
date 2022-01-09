@@ -1,15 +1,11 @@
 package frc.team449.generalInterfaces.limelight.commands;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.team449.drive.unidirectional.commands.AHRS.NavXTurnToAngleLimelight;
 import frc.team449.generalInterfaces.limelight.Limelight;
 import io.github.oblarg.oblog.Loggable;
 import org.jetbrains.annotations.NotNull;
-import frc.team449.drive.unidirectional.commands.AHRS.NavXTurnToAngleLimelight;
 
 /**
  * Turns on the limelight LEDs and starts scanning for a target When one is found, it overrides the
@@ -24,7 +20,7 @@ public class ScanThenTurn extends CommandBase implements Loggable {
 
   private final Limelight limelight;
   private final int scannerPipe;
-  private final NavXTurnToAngleLimelight turnCommand;
+  private final NavXTurnToAngleLimelight<?> turnCommand;
   private final int driverPipe;
 
   /**
@@ -38,7 +34,7 @@ public class ScanThenTurn extends CommandBase implements Loggable {
   @JsonCreator
   public ScanThenTurn(
       @JsonProperty(required = true) int scannerPipe,
-      @NotNull @JsonProperty(required = true) NavXTurnToAngleLimelight turnCommand,
+      @NotNull @JsonProperty(required = true) NavXTurnToAngleLimelight<?> turnCommand,
       @JsonProperty(required = true) int driverPipe,
       @JsonProperty(required = true) Limelight limelight) {
     this.limelight = limelight;

@@ -4,31 +4,34 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.revrobotics.CANDigitalInput;
-import com.revrobotics.CANEncoder;
-import com.revrobotics.CANPIDController;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel;
-import com.revrobotics.ControlType;
-import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
+import com.revrobotics.*;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.shuffleboard.EventImportance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import frc.team449.generalInterfaces.SmartMotor;
 import frc.team449.generalInterfaces.shiftable.Shiftable;
 import io.github.oblarg.oblog.annotations.Log;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @JsonIdentityInfo(generator = ObjectIdGenerators.StringIdGenerator.class)
 public class MappedSparkMax implements SmartMotor {
-  /** The PDP this Spark is connected to. */
-  @Nullable @Log.Exclude protected final PDP PDP;
-  /** The counts per rotation of the encoder being used, or null if there is no encoder. */
-  @Nullable private final Integer encoderCPR;
+  /**
+   * The PDP this Spark is connected to.
+   */
+  @Nullable
+  @Log.Exclude
+  protected final PDP pdp;
+  /**
+   * The counts per rotation of the encoder being used, or null if there is no encoder.
+   */
+  @Nullable
+  private final Integer encoderCPR;
   /**
    * The coefficient the output changes by after being measured by the encoder, e.g. this would be
    * 1/70 if there was a 70:1 gearing between the encoder and the final output.
@@ -75,7 +78,7 @@ public class MappedSparkMax implements SmartMotor {
    * @param name The Spark's name, used for logging purposes. Defaults to "spark_&gt;port&lt;"
    * @param reverseOutput Whether to reverse the output.
    * @param enableBrakeMode Whether to brake or coast when stopped.
-   * @param PDP The PDP this Spark is connected to.
+   * @param pdp The PDP this Spark is connected to.
    * @param fwdLimitSwitchNormallyOpen Whether the forward limit switch is normally open or closed.
    * If this is null, the forward limit switch is disabled.
    * @param revLimitSwitchNormallyOpen Whether the reverse limit switch is normally open or closed.
@@ -108,7 +111,7 @@ public class MappedSparkMax implements SmartMotor {
       @Nullable final String name,
       final boolean reverseOutput,
       @JsonProperty(required = true) final boolean enableBrakeMode,
-      @Nullable final PDP PDP,
+      @Nullable final PDP pdp,
       @Nullable final Boolean fwdLimitSwitchNormallyOpen,
       @Nullable final Boolean revLimitSwitchNormallyOpen,
       @Nullable final Integer remoteLimitSwitchID,
@@ -151,7 +154,7 @@ public class MappedSparkMax implements SmartMotor {
       }
     }
 
-    this.PDP = PDP;
+    this.pdp = pdp;
 
     this.unitPerRotation = unitPerRotation != null ? unitPerRotation : 1;
 

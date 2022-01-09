@@ -14,7 +14,7 @@ public class SlaveSparkMax implements SlaveMotor, Loggable {
 
   CANSparkMax slaveSpark;
 
-  PDP PDP;
+  PDP pdp;
 
   boolean inverted;
 
@@ -22,11 +22,11 @@ public class SlaveSparkMax implements SlaveMotor, Loggable {
   public SlaveSparkMax(
       @JsonProperty(required = true) final int port,
       @Nullable final Boolean inverted,
-      @Nullable final PDP PDP) {
+      @Nullable final PDP pdp) {
 
     this.slaveSpark = new CANSparkMax(port, CANSparkMaxLowLevel.MotorType.kBrushless);
 
-    this.inverted = inverted == null ? false : inverted;
+    this.inverted = inverted != null && inverted;
 
     this.slaveSpark
         .getForwardLimitSwitch(CANDigitalInput.LimitSwitchPolarity.kNormallyOpen)
@@ -39,7 +39,7 @@ public class SlaveSparkMax implements SlaveMotor, Loggable {
     this.slaveSpark.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, 100);
     this.slaveSpark.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, 100);
 
-    this.PDP = PDP;
+    this.pdp = pdp;
   }
 
   public void setMasterSpark(final CANSparkMax masterController, final boolean brakeMode) {

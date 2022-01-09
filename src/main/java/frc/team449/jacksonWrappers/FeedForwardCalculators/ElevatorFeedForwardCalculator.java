@@ -2,7 +2,7 @@ package frc.team449.jacksonWrappers.FeedForwardCalculators;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import edu.wpi.first.wpilibj.controller.ElevatorFeedforward;
+import edu.wpi.first.math.controller.ElevatorFeedforward;
 
 @JsonTypeInfo(
     use = JsonTypeInfo.Id.CLASS,

@@ -13,14 +13,20 @@ public class MappedVictor extends VictorSP implements SimpleMotor {
   /**
    * Json constructor using a port and inversion.
    *
-   * @param port The port number of the Victor.
+   * @param port     The port number of the Victor.
    * @param inverted Whether the motor is inverted. Defaults to false.
    */
   @JsonCreator
   public MappedVictor(@JsonProperty(required = true) int port, boolean inverted) {
     super(port);
     this.setInverted(inverted);
-    this.setSafetyEnabled(false);
+    // todo figure out what the new way to do this is
+    // this.setSafetyEnabled(false);
+  }
+
+  @Override
+  public void stopMotor() {
+    this.setVelocity(0);
   }
 
   /**

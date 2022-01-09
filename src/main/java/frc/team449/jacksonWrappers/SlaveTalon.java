@@ -1,20 +1,15 @@
 package frc.team449.jacksonWrappers;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.InvertType;
-import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
-import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
+import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import frc.team449.components.RunningLinRegComponent;
 import frc.team449.generalInterfaces.SlaveMotor;
 import io.github.oblarg.oblog.Loggable;
 import io.github.oblarg.oblog.annotations.Log;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import frc.team449.components.RunningLinRegComponent;
 
 /**
  * A {@link TalonSRX} that will be slaved to another TalonSRX or a {@link
@@ -22,10 +17,16 @@ import frc.team449.components.RunningLinRegComponent;
  */
 public class SlaveTalon implements SlaveMotor, Loggable {
 
-  /** The TalonSRX this object wraps. */
-  @NotNull private final TalonSRX talonSRX;
-  /** The PDP this talon runs on. Used for resistance logging purposes. */
-  @Nullable private PDP PDP;
+  /**
+   * The TalonSRX this object wraps.
+   */
+  @NotNull
+  private final TalonSRX talonSRX;
+  /**
+   * The PDP this talon runs on. Used for resistance logging purposes.
+   */
+  @Nullable
+  private PDP pdp;
 
   /** The linear regression component for logging resistance. */
   @Nullable private RunningLinRegComponent linRegComponent;
@@ -78,7 +79,7 @@ public class SlaveTalon implements SlaveMotor, Loggable {
    * @param currentLimit The current limit for this Talon. Can be null for no current limit.
    * @param voltageCompSamples The number of voltage compensation samples to use, or null to not
    *     compensate voltage.
-   * @param PDP The PDP this Talon is connected to.
+   * @param pdp The PDP this Talon is connected to.
    * @param linRegComponent The linear regression component for logging resistance.
    */
   public void setMaster(
@@ -86,7 +87,7 @@ public class SlaveTalon implements SlaveMotor, Loggable {
       final boolean brakeMode,
       @Nullable final Integer currentLimit,
       @Nullable final Integer voltageCompSamples,
-      @Nullable final PDP PDP,
+      @Nullable final PDP pdp,
       @Nullable final RunningLinRegComponent linRegComponent) {
     // Brake mode doesn't automatically follow master
     this.talonSRX.setNeutralMode(brakeMode ? NeutralMode.Brake : NeutralMode.Coast);
@@ -115,7 +116,7 @@ public class SlaveTalon implements SlaveMotor, Loggable {
     this.talonSRX.set(ControlMode.Follower, port);
 
     // Resistance logging
-    this.PDP = PDP;
+    this.pdp = pdp;
     this.linRegComponent = linRegComponent;
   }
 
@@ -176,7 +177,7 @@ public class SlaveTalon implements SlaveMotor, Loggable {
 
   @Log
   public Double getResistance() {
-    return (this.linRegComponent != null && this.PDP != null)
+    return (this.linRegComponent != null && this.pdp != null)
         ? -this.linRegComponent.getSlope()
         : Double.NaN;
   }

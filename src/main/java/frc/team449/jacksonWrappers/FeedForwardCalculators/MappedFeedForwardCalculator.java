@@ -3,7 +3,7 @@ package frc.team449.jacksonWrappers.FeedForwardCalculators;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 
 /** Motor feed forward calculator using velocity and acceleration */
 @JsonTypeInfo(

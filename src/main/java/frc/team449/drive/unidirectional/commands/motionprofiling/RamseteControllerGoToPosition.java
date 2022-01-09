@@ -1,24 +1,21 @@
 package frc.team449.drive.unidirectional.commands.motionprofiling;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import edu.wpi.first.wpilibj.controller.RamseteController;
-import edu.wpi.first.wpilibj.geometry.Pose2d;
-import edu.wpi.first.wpilibj.geometry.Translation2d;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
-import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
-import edu.wpi.first.wpilibj.trajectory.constraint.TrajectoryConstraint;
+import com.fasterxml.jackson.annotation.*;
+import edu.wpi.first.math.controller.RamseteController;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
+import edu.wpi.first.math.trajectory.constraint.TrajectoryConstraint;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
+import frc.team449.drive.unidirectional.DriveUnidirectionalWithGyro;
 import frc.team449.jacksonWrappers.MappedPIDController;
 import io.github.oblarg.oblog.Loggable;
+
 import java.util.ArrayList;
 import java.util.List;
-import frc.team449.drive.unidirectional.DriveUnidirectionalWithGyro;
 
 @JsonIdentityInfo(generator = ObjectIdGenerators.StringIdGenerator.class)
 @JsonTypeInfo(
@@ -27,13 +24,13 @@ import frc.team449.drive.unidirectional.DriveUnidirectionalWithGyro;
     property = "@class")
 public class RamseteControllerGoToPosition extends CommandBase implements Loggable {
 
-  private DriveUnidirectionalWithGyro drivetrain;
-  private MappedPIDController leftPidController;
-  private MappedPIDController rightPidController;
-  private Pose2d endingPose;
-  private List<Translation2d> translations;
+  private final DriveUnidirectionalWithGyro drivetrain;
+  private final MappedPIDController leftPidController;
+  private final MappedPIDController rightPidController;
+  private final Pose2d endingPose;
+  private final List<Translation2d> translations;
   private RamseteCommand wrappedCommand;
-  private TrajectoryConfig config;
+  private final TrajectoryConfig config;
 
   @JsonCreator
   public RamseteControllerGoToPosition(

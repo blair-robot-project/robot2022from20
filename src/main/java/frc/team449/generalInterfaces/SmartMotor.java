@@ -12,28 +12,24 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revrobotics.CANError;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotBase;
-import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.LayoutType;
+import frc.team449.components.RunningLinRegComponent;
 import frc.team449.generalInterfaces.shiftable.Shiftable;
+import frc.team449.generalInterfaces.simpleMotor.SimpleMotor;
+import frc.team449.jacksonWrappers.*;
 import frc.team449.jacksonWrappers.simulated.FPSSmartMotorSimulated;
+import frc.team449.other.Updater;
 import io.github.oblarg.oblog.Loggable;
 import io.github.oblarg.oblog.annotations.Log;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.jetbrains.annotations.Nullable;
-import frc.team449.components.RunningLinRegComponent;
-import frc.team449.generalInterfaces.simpleMotor.SimpleMotor;
-import frc.team449.jacksonWrappers.MappedSparkMax;
-import frc.team449.jacksonWrappers.MappedTalon;
-import frc.team449.jacksonWrappers.PDP;
-import frc.team449.jacksonWrappers.SlaveSparkMax;
-import frc.team449.jacksonWrappers.SlaveTalon;
-import frc.team449.jacksonWrappers.SlaveVictor;
-import frc.team449.other.Updater;
 
 import static frc.team449.other.Util.getLogPrefix;
 
@@ -64,7 +60,7 @@ public interface SmartMotor extends SimpleMotor, Shiftable, Loggable {
    * @param enableBrakeMode Whether to brake or coast when stopped.
    * @param voltagePerCurrentLinReg TALON-SPECIFIC. The component for doing linear regression to
    *     find the resistance.
-   * @param PDP The PDP this controller is connected to.
+   * @param pdp The PDP this controller is connected to.
    * @param fwdLimitSwitchNormallyOpen Whether the forward limit switch is normally open or closed.
    *     If this is null, the forward limit switch is disabled.
    * @param revLimitSwitchNormallyOpen Whether the reverse limit switch is normally open or closed.
@@ -118,7 +114,7 @@ public interface SmartMotor extends SimpleMotor, Shiftable, Loggable {
       @JsonProperty(required = true) final boolean enableBrakeMode,
       @Nullable final String name,
       final boolean reverseOutput,
-      @Nullable final PDP PDP,
+      @Nullable final PDP pdp,
       @Nullable final Boolean fwdLimitSwitchNormallyOpen,
       @Nullable final Boolean revLimitSwitchNormallyOpen,
       @Nullable final Integer remoteLimitSwitchID,
@@ -266,7 +262,7 @@ public interface SmartMotor extends SimpleMotor, Shiftable, Loggable {
                 name,
                 reverseOutput,
                 enableBrakeMode,
-                PDP,
+                pdp,
                 fwdLimitSwitchNormallyOpen,
                 revLimitSwitchNormallyOpen,
                 remoteLimitSwitchID,
@@ -295,7 +291,7 @@ public interface SmartMotor extends SimpleMotor, Shiftable, Loggable {
                 reverseOutput,
                 enableBrakeMode,
                 voltagePerCurrentLinReg,
-                PDP,
+                pdp,
                 fwdLimitSwitchNormallyOpen,
                 revLimitSwitchNormallyOpen,
                 remoteLimitSwitchID,
@@ -328,7 +324,7 @@ public interface SmartMotor extends SimpleMotor, Shiftable, Loggable {
                 enableBrakeMode,
                 name,
                 reverseOutput,
-                PDP,
+                pdp,
                 fwdLimitSwitchNormallyOpen,
                 revLimitSwitchNormallyOpen,
                 remoteLimitSwitchID,

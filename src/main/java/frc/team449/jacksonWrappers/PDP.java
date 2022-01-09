@@ -3,13 +3,14 @@ package frc.team449.jacksonWrappers;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
+import frc.team449.components.RunningLinRegComponent;
 import frc.team449.generalInterfaces.updatable.Updatable;
 import io.github.oblarg.oblog.Loggable;
 import io.github.oblarg.oblog.annotations.Log;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import frc.team449.components.RunningLinRegComponent;
 
 /**
  * An object representing the {@link PowerDistributionPanel} that logs power, current, and
@@ -18,8 +19,11 @@ import frc.team449.components.RunningLinRegComponent;
 @JsonIdentityInfo(generator = ObjectIdGenerators.StringIdGenerator.class)
 public class PDP implements Loggable, Updatable {
 
-  /** The WPILib PDP this is a wrapper on. */
-  @NotNull private final PowerDistributionPanel PDP;
+  /**
+   * The WPILib PDP this is a wrapper on.
+   */
+  @NotNull
+  private final PowerDistribution pdp;
 
   /** The component for doing linear regression to find the resistance. */
   @Nullable private final RunningLinRegComponent voltagePerCurrentLinReg;
@@ -33,8 +37,8 @@ public class PDP implements Loggable, Updatable {
    * @param canID CAN ID of the PDP. Defaults to 0.
    */
   @JsonCreator
-  public PDP(final int canID, @Nullable final RunningLinRegComponent voltagePerCurrentLinReg) {
-    this.PDP = new PowerDistributionPanel(canID);
+  public PDP(final int canID, @Nullable final RunningLinRegComponent voltagePerCurrentLinReg, PowerDistribution.ModuleType moduleType) {
+    this.pdp = new PowerDistribution(canID, moduleType);
     this.voltagePerCurrentLinReg = voltagePerCurrentLinReg;
     this.voltage = 0;
     this.totalCurrent = 0;
@@ -145,9 +149,9 @@ public class PDP implements Loggable, Updatable {
   /** Updates all cached values with current ones. */
   @Override
   public void update() {
-    this.totalCurrent = PDP.getTotalCurrent();
-    this.voltage = PDP.getVoltage();
-    this.temperature = PDP.getTemperature();
+    this.totalCurrent = pdp.getTotalCurrent();
+    this.voltage = pdp.getVoltage();
+    this.temperature = pdp.getTemperature();
     if (voltagePerCurrentLinReg != null) {
       voltagePerCurrentLinReg.addPoint(totalCurrent, voltage);
       this.unloadedVoltage = voltagePerCurrentLinReg.getIntercept();
